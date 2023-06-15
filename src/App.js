@@ -5,6 +5,20 @@ import "./App.css";
 function App() {
   const [toDos, setTodos] = useState([]);
   const [toDo, setToDo] = useState("");
+  const deleteToDo = (id) => {
+	const confirmDelete = window.confirm("Are you sure you want to delete this ToDo item?");
+	if (confirmDelete) {
+	  setTodos(toDos.filter((todo) => todo.id !== id));
+	}
+  };
+  const addTodo = () => {
+	if (toDo.trim() !== "") {
+	  setTodos([...toDos, { id: Date.now(), text: toDo, status: false }]);
+	  setToDo("");
+	} else {
+	  alert("ToDo cannot be empty!");
+	}
+  };
   
 	return (
 		<div className="app">
@@ -22,8 +36,8 @@ function App() {
 					type="text"
 					placeholder="🖊️ Add item..."
 				/>
-				<i onClick={()=>setTodos([...toDos,{id:Date.now(),text: toDo,status:false}])} className="fas fa-plus"></i>
-			</div>
+				<i onClick={addTodo} className="fas fa-plus"></i>
+				</div>
 			<div className="todos">
 			{toDos.map((obj)=>{
 				return(	
@@ -38,10 +52,12 @@ function App() {
 								return obj2
 							}))
 						}} value={obj.status} type="checkbox" name="" id="" />
-						<p>{obj.text}</p>
+						<p className={obj.status? "completed":""}> {obj.text}</p>
 					</div>
 					<div className="right">
-						<i className="fas fa-times"></i>
+						<i className="fas fa-times"
+						onClick={() => deleteToDo(obj.id)}
+						></i>
 					</div>
 				</div>
 				)})}

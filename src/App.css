@@ -86,3 +86,8 @@ h2 {
   color: grey;
 }
 
+.completed {
+  text-decoration: line-through;
+}
+
+
