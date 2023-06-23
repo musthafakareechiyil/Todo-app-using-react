@@ -5,16 +5,26 @@ import "./App.css";
 function App() {
   const [toDos, setTodos] = useState([]);
   const [toDo, setToDo] = useState("");
+
+
   const deleteToDo = (id) => {
 	const confirmDelete = window.confirm("Are you sure you want to delete this ToDo item?");
 	if (confirmDelete) {
 	  setTodos(toDos.filter((todo) => todo.id !== id));
 	}
   };
+
   const addTodo = () => {
 	if (toDo.trim() !== "") {
-	  setTodos([...toDos, { id: Date.now(), text: toDo, status: false }]);
-	  setToDo("");
+
+		const todoExists = toDos.some((todo) => todo.text.toString().toLowerCase() === toDo.toString().toLowerCase());
+
+		if (todoExists){
+			alert("This ToDo item already exists!");
+		}else{
+			setTodos([...toDos, { id: Date.now(), text: toDo, status: false }]);
+			setToDo("");
+		}
 	} else {
 	  alert("ToDo cannot be empty!");
 	}
